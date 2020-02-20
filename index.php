@@ -8,7 +8,6 @@ class App
     protected $tmpFile = '/Users/${USER}/wallpaper.png';
     protected $screens = 'all';
     protected $query = '';
-    protected $interval = 300;
     protected $purity = 'sfw';
 
     /**
@@ -16,9 +15,10 @@ class App
      */
     function __destruct()
     {
-        $time = (new DateTime('+'.$this->interval.' SECONDS'))->format('H:i');
+        $interval = $_GET['interval'] ?? 900;
+        $time = (new DateTime('+'.$interval.' SECONDS'))->format('H:i');
         echo '<p>Next refresh: ' . $time . '</p>';
-        echo '<meta http-equiv="refresh" content="'.$this->interval.'">';
+        echo '<meta http-equiv="refresh" content="'.$interval.'">';
     }
 
     public function run()

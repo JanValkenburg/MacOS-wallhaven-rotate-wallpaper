@@ -35,10 +35,11 @@ In the browser you have to open the following url:
 http://{{script-path}}/?topRange=1M
 http://{{script-path}}/?q=landscape
  
-| Type        | url variable | values                      |
-|-------------|--------------|-----------------------------|
-| search term | q            | beach                       |
-| Top 24      | topRange     | 1d, 3d, 1w, 1M*, 3M, 6M, 1y |
+| Type         | url variable   | values                      |
+|--------------|----------------|-----------------------------|
+| search term  | q              | beach                       |
+| Top 24       | topRange       | 1d, 3d, 1w, 1M*, 3M, 6M, 1y |
+| refresh time | interval (sec) | 900                         |
 
 ## Contributing
 
