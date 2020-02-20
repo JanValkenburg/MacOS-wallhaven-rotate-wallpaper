@@ -8,6 +8,17 @@ class App
     protected $tmpFile = '/Users/${USER}/wallpaper.png';
     protected $screens = 'all';
     protected $query = '';
+    protected $interval = 300;
+
+    /**
+     * @throws Exception
+     */
+    function __destruct()
+    {
+        $time = (new DateTime('+'.$this->interval.' SECONDS'))->format('H:i');
+        echo '<p>Next refresh: ' . $time . '</p>';
+        echo '<meta http-equiv="refresh" content="'.$this->interval.'">';
+    }
 
     public function run()
     {
@@ -38,15 +49,14 @@ class App
 
         if (false === isset($data->data[0]->path)) {
             echo '<br>';
-            echo 'no image found: '. $this->query . ' ' . $this->resolutions;
+            echo 'no image found: ' . $this->query . ' ' . $this->resolutions;
             return null;
         }
 
         file_put_contents($this->tmpFile, file_get_contents($data->data[0]->path));
         shell_exec('/usr/local/bin/wallpaper set --screen ' . $this->screens . ' ' . $this->tmpFile);
     }
+
 }
 
 (new App())->run();
-?>
-<meta http-equiv="refresh" content="900">
