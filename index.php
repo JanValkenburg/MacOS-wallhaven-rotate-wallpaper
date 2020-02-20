@@ -9,6 +9,7 @@ class App
     protected $screens = 'all';
     protected $query = '';
     protected $interval = 300;
+    protected $purity = 'sfw';
 
     /**
      * @throws Exception
@@ -36,12 +37,23 @@ class App
 
     protected function handleImage()
     {
-        $query = http_build_query([
-            'apikey' => $this->api_key,
-            'resolutions' => $this->resolutions,
-            'q' => 'type:{png}|' . $this->query,
-            'sorting' => $this->sorting
-        ]);
+        if ($_GET['topRange'] ?? null) {
+            $query = http_build_query([
+                'apikey' => $this->api_key,
+                'resolutions' => $this->resolutions,
+                'sorting' => $this->sorting,
+                'topRange' => $_GET['topRange'] ?? null,
+                'purity' => $this->purity
+            ]);
+        } else {
+            $query = http_build_query([
+                'apikey' => $this->api_key,
+                'resolutions' => $this->resolutions,
+                'q' => 'type:{png}|' . $this->query,
+                'sorting' => $this->sorting,
+                'purity' =>  $this->purity
+            ]);
+        }
 
         $url = 'https://wallhaven.cc/api/v1/search?' . $query;
         $content = file_get_contents($url);
