@@ -57,7 +57,7 @@ class App
             $query = http_build_query([
                 'apikey' => $this->api_key,
                 'resolutions' => $this->resolutions,
-                'q' => 'type:{png}|' . $this->query,
+                'q' => $this->query,
                 'sorting' => $this->sorting,
                 'purity' =>  $this->purity
             ]);

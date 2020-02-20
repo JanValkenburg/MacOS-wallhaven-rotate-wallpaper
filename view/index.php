@@ -12,8 +12,64 @@
 </header>
 <main>
 
+    <form>
+        <legend>Filter wallpaper</legend>
+
+        <label for="">Query</label>
+        <input type="search"
+               name="q"
+               value="<?= $_GET['q'] ?? ''; ?>"
+        />
+
+        <label for="">Resolution</label>
+        <input type="text"
+               name="resolution"
+               value="<?= $_GET['resolution'] ?? ''; ?>"
+        />
+
+        <label for="">Purity</label>
+        <select name="purity" id="">
+            <?php foreach (['sfw', 'sketchy', 'nsfw'] as $purity): ?>
+                <option value="<?= $purity; ?>"
+                        <?php if (isset($_GET['purity']) && $_GET['purity'] == $purity): ?>selected<?php endif ?>
+                >
+                    <?= $purity ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+
+        <label for="">Top range</label>
+        <select name="topRange" id="">
+            <option value="">disabled</option>
+            <?php foreach (['1d', '3d', '1w', '1M', '3M', '6M', '1y'] as $topRange): ?>
+                <option value="<?= $topRange; ?>"
+                        <?php if (isset($_GET['topRange']) && $_GET['topRange'] == $topRange): ?>selected<?php endif ?>
+                >
+                    <?= $topRange ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+
+        <label for="">Refresh interval</label>
+        <select name="interval" id="">
+            <?php foreach (['30'=> '30 sec', '60' => '1 min', '300'=>'5 min', '600'=> '10 min', '900'=>'15 min', '1800'=>'30 min', '3600'=>'1 hour'] as $value => $interval): ?>
+                <option value="<?= $value; ?>"
+                        <?php if (isset($_GET['interval']) && $_GET['interval'] == $value): ?>selected<?php endif ?>
+                >
+                    <?= $interval ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <br>
+
+        <button>
+            Submit
+        </button>
+    </form>
+
+
     <?php foreach ($this->images as $image): ?>
-        <figure style="float:left;border: 1px solid silver;">
+        <figure>
             <a href="<?= $image->url; ?>" target="_blank">
                 <img src="<?= $image->thumbs->small; ?>"/>
             </a>
@@ -30,69 +86,9 @@
             </figcaption>
         </figure>
     <?php endforeach; ?>
-    <form>
-        <fieldset>
-
-            <label for="">Zoekopdracht</label>
-            <input type="search"
-                   name="q"
-                   value="<?= $_GET['q'] ?? ''; ?>"
-            />
-            <br>
-
-            <label for="">Resolution</label>
-            <input type="text"
-                   name="resolution"
-                   value="<?= $_GET['resolution'] ?? ''; ?>"
-            />
-            <br>
-
-            <label for="">purity</label>
-            <select name="purity" id="">
-                <?php foreach (['sfw', 'sketchy', 'nsfw'] as $purity): ?>
-                    <option value="<?= $purity; ?>"
-                            <?php if (isset($_GET['purity']) && $_GET['purity'] == $purity): ?>selected<?php endif ?>
-                    >
-                        <?= $purity ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-            <br>
-
-            <label for="">topRange</label>
-            <select name="topRange" id="">
-                <option value="">disabled</option>
-                <?php foreach (['1d', '3d', '1w', '1M', '3M', '6M', '1y'] as $topRange): ?>
-                    <option value="<?= $topRange; ?>"
-                            <?php if (isset($_GET['topRange']) && $_GET['topRange'] == $topRange): ?>selected<?php endif ?>
-                    >
-                        <?= $topRange ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-            <br>
-
-            <label for="">refresh interval</label>
-            <select name="interval" id="">
-                <?php foreach (['30', '60', '300', '600', '900', '1800', '3600'] as $interval): ?>
-                    <option value="<?= $interval; ?>"
-                            <?php if (isset($_GET['interval']) && $_GET['interval'] == $interval): ?>selected<?php endif ?>
-                    >
-                        <?= $interval ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-            <br>
-            <br>
-
-            <button>
-                Verzenden
-            </button>
-        </fieldset>
-    </form>
 </main>
 <footer>
-    created by:
+    Created by:
     <a href="https://jv-dezign.com/" target="_blank">JV-Dezign.com</a>
     |
     <a href="https://janvalkenburg.nl/" target="_blank">janvalkenburg.nl</a>
@@ -109,43 +105,69 @@
         outline: none;
         box-sizing: border-box;
     }
+
     html {
         cursor: default;
         font-family: Arial;
         color: #202020;
     }
+
     a {
         color: inherit;
     }
+
     header {
         background: white;
         padding: 5px 10px;
-        box-shadow: 0 0 5px rgba(0,0,0,.5);
+        box-shadow: 0 0 5px rgba(0, 0, 0, .5);
         margin-bottom: 1rem;
     }
+
     header h1 {
         display: inline-block;
     }
+
     header time {
         float: right;
     }
+
     main {
         padding: 5px;
     }
+
     figure {
         margin-left: 5px;
         margin-right: 5px;
+        float: left;
+        overflow: hidden;
+        border: 1px solid silver;
+        border-radius: 5px;
     }
+
     form {
+        overflow: hidden;
+        border: 1px solid silver;
+        border-radius: 5px;
         padding: 5px 10px;
+        float: left;
+        width: 30%;
     }
+
     form label {
         display: block;
         margin-top: .5rem;
     }
+
+    form select,
+    form input {
+        display: block;
+        width: 100%;
+    }
+
     fieldset {
         padding: 10px;
     }
+
     form button {
         background: blue;
         border-radius: 3px;
@@ -154,18 +176,18 @@
         padding: 5px 10px;
         color: white;
     }
+
     footer {
         clear: both;
         position: fixed;
-        bottom:0;
-        left:0;
+        bottom: 0;
+        left: 0;
         right: 0;
-        box-shadow: 0 0 5px rgba(0,0,0,.5);
+        box-shadow: 0 0 5px rgba(0, 0, 0, .5);
         text-align: center;
         padding: 5px 10px;
         font-size: 12px;
         background: #fff;
-
     }
 
 </style>
