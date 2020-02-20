@@ -11,6 +11,9 @@ class App
 
     public function run()
     {
+        $userId = trim(shell_exec('id -un'));
+        $this->tmpFile = str_replace('${USER}', $userId, $this->tmpFile);
+
         $this->query = $_GET['q'] ?? 'anime girl';
         $this->screens = 1;
         $this->handleImage();
@@ -39,8 +42,6 @@ class App
             return null;
         }
 
-        $userId = trim(shell_exec('id -un'));
-        $this->tmpFile = str_replace('${USER}', $userId, $this->tmpFile);
         file_put_contents($this->tmpFile, file_get_contents($data->data[0]->path));
         shell_exec('/usr/local/bin/wallpaper set --screen ' . $this->screens . ' ' . $this->tmpFile);
     }
