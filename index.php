@@ -14,6 +14,7 @@ class App
     protected $resolutions = '1920x1080';
     protected $topRange = null;
     protected $images = [];
+    protected $categories;
 
     /**
      * @throws Exception
@@ -34,6 +35,7 @@ class App
         $this->resolutions = $_GET['resolution'] ?? $this->resolutions;
         $this->purity = $_GET['purity'] ?? $this->purity;
         $this->topRange = $_GET['topRange'] ?? $this->topRange;
+        $this->categories = $_GET['categories'] ?? $this->categories;
 
         $resolutions = explode(',', $this->resolutions);
         foreach ($resolutions as $screen => $resolution) {
@@ -45,7 +47,7 @@ class App
 
     protected function handleImage()
     {
-        if (trim($this->topRange)) {
+        if (trim($this->topRange) != '') {
             $query = http_build_query([
                 'apikey' => $this->api_key,
                 'resolutions' => $this->resolutions,
@@ -59,6 +61,7 @@ class App
                 'resolutions' => $this->resolutions,
                 'q' => $this->query,
                 'sorting' => $this->sorting,
+                'categories' => $this->categories,
                 'purity' =>  $this->purity
             ]);
         }

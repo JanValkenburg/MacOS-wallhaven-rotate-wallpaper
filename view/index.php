@@ -15,31 +15,42 @@
     <form>
         <legend>Filter wallpaper</legend>
 
-        <label for="">Query</label>
+        <label>Query</label>
         <input type="search"
                name="q"
                value="<?= $_GET['q'] ?? ''; ?>"
         />
 
-        <label for="">Resolution</label>
+        <label>Resolution</label>
         <input type="text"
                name="resolution"
                value="<?= $_GET['resolution'] ?? ''; ?>"
         />
 
-        <label for="">Purity</label>
-        <select name="purity" id="">
-            <?php foreach (['sfw', 'sketchy', 'nsfw'] as $purity): ?>
-                <option value="<?= $purity; ?>"
-                        <?php if (isset($_GET['purity']) && $_GET['purity'] == $purity): ?>selected<?php endif ?>
+        <label>Categories</label>
+        <select name="categories">
+            <?php foreach (['100' => 'general', '010' => 'anime', '001' => 'people'] as $value => $categories): ?>
+                <option value="<?= $value; ?>"
+                        <?php if (isset($_GET['categories']) && $_GET['categories'] == $value): ?>selected<?php endif ?>
+                >
+                    <?= $categories ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+
+        <label>Purity</label>
+        <select name="purity">
+            <?php foreach (['100' => 'sfw', '010' => 'sketchy', '001' => 'nsfw'] as $value => $purity): ?>
+                <option value="<?= $value; ?>"
+                        <?php if (isset($_GET['purity']) && $_GET['purity'] == $value): ?>selected<?php endif ?>
                 >
                     <?= $purity ?>
                 </option>
             <?php endforeach; ?>
         </select>
 
-        <label for="">Top range</label>
-        <select name="topRange" id="">
+        <label>Top range</label>
+        <select name="topRange">
             <option value="">disabled</option>
             <?php foreach (['1d', '3d', '1w', '1M', '3M', '6M', '1y'] as $topRange): ?>
                 <option value="<?= $topRange; ?>"
@@ -50,9 +61,9 @@
             <?php endforeach; ?>
         </select>
 
-        <label for="">Refresh interval</label>
-        <select name="interval" id="">
-            <?php foreach (['30'=> '30 sec', '60' => '1 min', '300'=>'5 min', '600'=> '10 min', '900'=>'15 min', '1800'=>'30 min', '3600'=>'1 hour'] as $value => $interval): ?>
+        <label>Refresh interval</label>
+        <select name="interval">
+            <?php foreach (['30' => '30 sec', '60' => '1 min', '300' => '5 min', '600' => '10 min', '900' => '15 min', '1800' => '30 min', '3600' => '1 hour'] as $value => $interval): ?>
                 <option value="<?= $value; ?>"
                         <?php if (isset($_GET['interval']) && $_GET['interval'] == $value): ?>selected<?php endif ?>
                 >
