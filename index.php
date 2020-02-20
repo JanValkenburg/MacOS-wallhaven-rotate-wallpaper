@@ -1,14 +1,19 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 class App
 {
     protected $api_key = '5VT3N7UoLwXIADhMrQ31sv2G7DXJXR7N';
     protected $sorting = 'random';
-    protected $resolutions = '1920x1080';
     protected $tmpFile = '/Users/${USER}/wallpaper.png';
     protected $screens = 'all';
-    protected $query = '';
+    protected $query = 'anime girl';
     protected $purity = 'sfw';
+    protected $resolutions = '1920x1080';
+    protected $topRange = null;
+    protected $images = [];
 
     /**
      * @throws Exception
@@ -17,8 +22,7 @@ class App
     {
         $interval = $_GET['interval'] ?? 900;
         $time = (new DateTime('+'.$interval.' SECONDS'))->format('H:i');
-        echo '<p>Next refresh: ' . $time . '</p>';
-        echo '<meta http-equiv="refresh" content="'.$interval.'">';
+        require 'view/index.php';
     }
 
     public function run()
@@ -26,18 +30,22 @@ class App
         $userId = trim(shell_exec('id -un'));
         $this->tmpFile = str_replace('${USER}', $userId, $this->tmpFile);
 
-        $this->query = $_GET['q'] ?? 'anime girl';
-        $this->screens = 1;
-        $this->handleImage();
+        $this->query = $_GET['q'] ?? $this->query;
+        $this->resolutions = $_GET['resolution'] ?? $this->resolutions;
+        $this->purity = $_GET['purity'] ?? $this->purity;
+        $this->topRange = $_GET['topRange'] ?? $this->topRange;
 
-        $this->screens = 0;
-//        $this->resolutions = '1080x1920';
-        $this->handleImage();
+        $resolutions = explode(',', $this->resolutions);
+        foreach ($resolutions as $screen => $resolution) {
+            $this->screens = $screen;
+            $this->resolutions = $resolution;
+            $this->handleImage();
+        }
     }
 
     protected function handleImage()
     {
-        if ($_GET['topRange'] ?? null) {
+        if (trim($this->topRange)) {
             $query = http_build_query([
                 'apikey' => $this->api_key,
                 'resolutions' => $this->resolutions,
@@ -64,8 +72,7 @@ class App
             echo 'no image found: ' . $this->query . ' ' . $this->resolutions;
             return null;
         }
-
-        echo '<a href="'.$data->data[0]->url.'" target="_blank"><img src="'.$data->data[0]->thumbs->small.'"/></a>';
+        $this->images[] = $data->data[0];
 
         file_put_contents($this->tmpFile, file_get_contents($data->data[0]->path));
         shell_exec('/usr/local/bin/wallpaper set --screen ' . $this->screens . ' ' . $this->tmpFile);
