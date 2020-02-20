@@ -5,19 +5,19 @@ class App
     protected $api_key = '5VT3N7UoLwXIADhMrQ31sv2G7DXJXR7N';
     protected $sorting = 'random';
     protected $resolutions = '1920x1080';
-    protected $tmpFile = '/Users/vaartland/wallpaper.png';
+    protected $tmpFile = '/Users/${USER}/wallpaper.png';
     protected $screens = 'all';
     protected $query = '';
 
     public function run()
     {
         $this->query = $_GET['q'] ?? 'anime girl';
-//        $this->screens = 1;
+        $this->screens = 1;
         $this->handleImage();
 
-//        $this->screens = 0;
+        $this->screens = 0;
 //        $this->resolutions = '1080x1920';
-//        $this->handleImage();
+        $this->handleImage();
     }
 
     protected function handleImage()
@@ -39,6 +39,8 @@ class App
             return null;
         }
 
+        $userId = trim(shell_exec('id -un'));
+        $this->tmpFile = str_replace('${USER}', $userId, $this->tmpFile);
         file_put_contents($this->tmpFile, file_get_contents($data->data[0]->path));
         shell_exec('/usr/local/bin/wallpaper set --screen ' . $this->screens . ' ' . $this->tmpFile);
     }
