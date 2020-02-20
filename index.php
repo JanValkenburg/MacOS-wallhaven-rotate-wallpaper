@@ -65,6 +65,8 @@ class App
             return null;
         }
 
+        echo '<a href="'.$data->data[0]->url.'" target="_blank"><img src="'.$data->data[0]->thumbs->small.'"/></a>';
+
         file_put_contents($this->tmpFile, file_get_contents($data->data[0]->path));
         shell_exec('/usr/local/bin/wallpaper set --screen ' . $this->screens . ' ' . $this->tmpFile);
     }
