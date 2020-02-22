@@ -15,6 +15,7 @@ class App
     protected $topRange = null;
     protected $images = [];
     protected $categories;
+    protected $cacheFolder = '/cache/';
 
     /**
      * @throws Exception
@@ -22,7 +23,7 @@ class App
     function __destruct()
     {
         $interval = $_GET['interval'] ?? 900;
-        $time = (new DateTime('+'.$interval.' SECONDS'))->format('H:i');
+        $time = (new DateTime('+' . $interval . ' SECONDS'))->format('H:i');
         require 'view/index.php';
     }
 
@@ -62,7 +63,7 @@ class App
                 'q' => $this->query,
                 'sorting' => $this->sorting,
                 'categories' => $this->categories,
-                'purity' =>  $this->purity
+                'purity' => $this->purity
             ]);
         }
 
@@ -75,14 +76,11 @@ class App
             echo 'no image found: ' . $this->query . ' ' . $this->resolutions;
             return null;
         }
+
         $this->images[] = $data->data[0];
 
-        $extention = '.png';
-        if ($data->data[0]->file_type === 'image/jpeg') {
-            $extention = '.jpg';
-        }
-        $this->tmpFile = $this->tmpFile . $extention;
-        file_put_contents($this->tmpFile, file_get_contents($data->data[0]->path));
+        $this->downloadImage($data);
+
         shell_exec('/usr/local/bin/wallpaper set --screen ' . $this->screens . ' ' . $this->tmpFile);
     }
 
@@ -102,6 +100,33 @@ class App
         $sketchy = (int)(isset($this->purity['sketchy']));
         $nsfw = (int)(isset($this->purity['nsfw']));
         $this->purity = $sfw . $sketchy . $nsfw;
+    }
+
+    /**
+     * @param $data
+     */
+    protected function downloadImage($data)
+    {
+        $extension = $this->getFileType($data);
+        $this->tmpFile = $this->tmpFile . $extension;
+        $imageName = __DIR__ . $this->cacheFolder . $data->data[0]->id . $extension;
+        if (false === file_exists($imageName)) {
+            file_put_contents($imageName, file_get_contents($data->data[0]->path));
+        }
+        copy($imageName, $this->tmpFile);
+    }
+
+    /**
+     * @param $data
+     * @return string
+     */
+    protected function getFileType($data)
+    {
+        $extention = '.png';
+        if ($data->data[0]->file_type === 'image/jpeg') {
+            $extention = '.jpg';
+        }
+        return $extention;
     }
 
 }
