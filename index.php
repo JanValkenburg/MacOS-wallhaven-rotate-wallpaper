@@ -35,7 +35,7 @@ class App
         $this->resolutions = $_GET['resolution'] ?? $this->resolutions;
         $this->purity = $_GET['purity'] ?? $this->purity;
         $this->topRange = $_GET['topRange'] ?? $this->topRange;
-        $this->categories = $_GET['categories'] ?? $this->categories;
+        $this->handleCategories();
 
         $resolutions = explode(',', $this->resolutions);
         foreach ($resolutions as $screen => $resolution) {
@@ -84,6 +84,15 @@ class App
         $this->tmpFile = $this->tmpFile . $extention;
         file_put_contents($this->tmpFile, file_get_contents($data->data[0]->path));
         shell_exec('/usr/local/bin/wallpaper set --screen ' . $this->screens . ' ' . $this->tmpFile);
+    }
+
+    protected function handleCategories()
+    {
+        $this->categories = $_GET['categories'] ?? $this->categories;
+        $general = (int)(isset($this->categories['general']));
+        $anime = (int)(isset($this->categories['anime']));
+        $people = (int)(isset($this->categories['people']));
+        $this->categories = $general . $anime . $people;
     }
 
 }

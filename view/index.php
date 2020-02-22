@@ -28,15 +28,38 @@
         />
 
         <label>Categories</label>
-        <select name="categories">
-            <?php foreach (['100' => 'general', '010' => 'anime', '001' => 'people'] as $value => $categories): ?>
-                <option value="<?= $value; ?>"
-                        <?php if (isset($_GET['categories']) && $_GET['categories'] == $value): ?>selected<?php endif ?>
-                >
-                    <?= $categories ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+        <input id="categoriesGeneral"
+               type="checkbox"
+               name="categories[general]"
+               style="display: none;"
+               <?php if (isset($_GET['categories']['general'])): ?>checked<?php endif; ?>
+        />
+        <label for="categoriesGeneral"
+               style="width: 32%; display: inline-block; border: 1px solid silver; text-align: center;">
+            General
+        </label>
+
+        <input id="categoriesAnime"
+               type="checkbox"
+               name="categories[anime]"
+               style="display: none;"
+               <?php if (isset($_GET['categories']['anime'])): ?>checked<?php endif; ?>
+        />
+        <label for="categoriesAnime"
+               style="width: 32%; display: inline-block; border: 1px solid silver; text-align: center;">
+            Anime
+        </label>
+
+        <input id="categoriesPeople"
+               type="checkbox"
+               name="categories[people]"
+               style="display: none;"
+               <?php if (isset($_GET['categories']['people'])): ?>checked<?php endif; ?>
+        />
+        <label for="categoriesPeople"
+               style="width: 32%; display: inline-block; border: 1px solid silver; text-align: center;">
+            People
+        </label>
 
         <label>Purity</label>
         <select name="purity">
@@ -129,6 +152,12 @@
         color: inherit;
     }
 
+    [type="checkbox"] + label {
+        cursor: pointer;
+    }
+    [type="checkbox"]:checked + label {
+        background: silver;
+    }
     header {
         background: white;
         padding: 5px 10px;
