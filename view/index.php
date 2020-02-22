@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="<?= $interval; ?>">
+    <link rel="shortcut icon" href="favicon.ico" />
     <title>MacOS WallHaven wallpaper rotator</title>
 </head>
 <body>
