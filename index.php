@@ -7,7 +7,7 @@ class App
 {
     protected $api_key = '5VT3N7UoLwXIADhMrQ31sv2G7DXJXR7N';
     protected $sorting = 'random';
-    protected $tmpFile = '/Users/${USER}/wallpaper.png';
+    protected $tmpFile = '/Users/${USER}/wallpaper';
     protected $screens = 'all';
     protected $query = 'anime girl';
     protected $purity = 'sfw';
@@ -77,6 +77,11 @@ class App
         }
         $this->images[] = $data->data[0];
 
+        $extention = '.png';
+        if ($data->data[0]->file_type === 'image/jpeg') {
+            $extention = '.jpg';
+        }
+        $this->tmpFile = $this->tmpFile . $extention;
         file_put_contents($this->tmpFile, file_get_contents($data->data[0]->path));
         shell_exec('/usr/local/bin/wallpaper set --screen ' . $this->screens . ' ' . $this->tmpFile);
     }

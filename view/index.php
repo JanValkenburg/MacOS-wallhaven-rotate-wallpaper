@@ -85,6 +85,8 @@
                 <img src="<?= $image->thumbs->small; ?>"/>
             </a>
             <figcaption style="padding: 10px;">
+                file type: <?= $image->file_type; ?>
+                <br>
                 purity: <?= $image->purity; ?>
                 <br>
                 category: <?= $image->category; ?>
