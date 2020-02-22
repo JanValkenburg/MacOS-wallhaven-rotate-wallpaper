@@ -16,14 +16,17 @@ class App
     protected $images = [];
     protected $categories;
     protected $cacheFolder = '/cache/';
+    protected $maxCachingSize = '250';
 
     /**
      * @throws Exception
      */
     function __destruct()
     {
+        $this->cleanUpCaching();
         $interval = $_GET['interval'] ?? 900;
         $time = (new DateTime('+' . $interval . ' SECONDS'))->format('H:i');
+        list($filenames, $cachingSize) = $this->readCachingFolder();
         require 'view/index.php';
     }
 
@@ -129,6 +132,37 @@ class App
         return $extention;
     }
 
+    protected function cleanUpCaching()
+    {
+        list($filenames, $sum) = $this->readCachingFolder();
+        ksort($filenames);
+        foreach ($filenames as $filename) {
+            if ($sum > $this->maxCachingSize * 1000000) {
+                unlink(__DIR__ . $this->cacheFolder . $filename['name']);
+                $sum = $sum - $filename['size'];
+            }
+        }
+    }
+
+    /**
+     * @return array
+     */
+    protected function readCachingFolder()
+    {
+        $filenames = array();
+        $sum = 0;
+        $iterator = new DirectoryIterator(__DIR__ . $this->cacheFolder);
+        foreach ($iterator as $fileinfo) {
+            if ($fileinfo->isFile() and $fileinfo->getFilename() !== 'index.html') {
+                $filenames[$fileinfo->getMTime()] = [
+                    'name' => $fileinfo->getFilename(),
+                    'size' => $fileinfo->getSize()
+                ];
+                $sum +=$fileinfo->getSize();
+            }
+        }
+        return array($filenames, $sum);
+    }
 }
 
 (new App())->run();
