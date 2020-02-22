@@ -27,50 +27,76 @@
                value="<?= $_GET['resolution'] ?? ''; ?>"
         />
 
-        <label>Categories</label>
-        <input id="categoriesGeneral"
-               type="checkbox"
-               name="categories[general]"
-               style="display: none;"
-               <?php if (isset($_GET['categories']['general'])): ?>checked<?php endif; ?>
-        />
-        <label for="categoriesGeneral"
-               style="width: 32%; display: inline-block; border: 1px solid silver; text-align: center;">
-            General
-        </label>
+        <div>
+            <label>Categories</label>
+            <input id="categoriesGeneral"
+                   type="checkbox"
+                   name="categories[general]"
+                   style="display: none;"
+                   <?php if (isset($_GET['categories']['general'])): ?>checked<?php endif; ?>
+            />
+            <label for="categoriesGeneral"
+                   style="width: 32%; display: inline-block; border: 1px solid silver; text-align: center;">
+                General
+            </label>
 
-        <input id="categoriesAnime"
-               type="checkbox"
-               name="categories[anime]"
-               style="display: none;"
-               <?php if (isset($_GET['categories']['anime'])): ?>checked<?php endif; ?>
-        />
-        <label for="categoriesAnime"
-               style="width: 32%; display: inline-block; border: 1px solid silver; text-align: center;">
-            Anime
-        </label>
+            <input id="categoriesAnime"
+                   type="checkbox"
+                   name="categories[anime]"
+                   style="display: none;"
+                   <?php if (isset($_GET['categories']['anime'])): ?>checked<?php endif; ?>
+            />
+            <label for="categoriesAnime"
+                   style="width: 32%; display: inline-block; border: 1px solid silver; text-align: center;">
+                Anime
+            </label>
 
-        <input id="categoriesPeople"
-               type="checkbox"
-               name="categories[people]"
-               style="display: none;"
-               <?php if (isset($_GET['categories']['people'])): ?>checked<?php endif; ?>
-        />
-        <label for="categoriesPeople"
-               style="width: 32%; display: inline-block; border: 1px solid silver; text-align: center;">
-            People
-        </label>
+            <input id="categoriesPeople"
+                   type="checkbox"
+                   name="categories[people]"
+                   style="display: none;"
+                   <?php if (isset($_GET['categories']['people'])): ?>checked<?php endif; ?>
+            />
+            <label for="categoriesPeople"
+                   style="width: 32%; display: inline-block; border: 1px solid silver; text-align: center;">
+                People
+            </label>
+        </div>
+        <div>
+            <label>Purity</label>
+            <input id="puritySfw"
+                   type="checkbox"
+                   name="purity[sfw]"
+                   style="display: none;"
+                   <?php if (isset($_GET['purity']['sfw'])): ?>checked<?php endif; ?>
+            />
+            <label for="puritySfw"
+                   style="width: 32%; display: inline-block; border: 1px solid silver; text-align: center;">
+                sfw
+            </label>
 
-        <label>Purity</label>
-        <select name="purity">
-            <?php foreach (['100' => 'sfw', '010' => 'sketchy', '001' => 'nsfw'] as $value => $purity): ?>
-                <option value="<?= $value; ?>"
-                        <?php if (isset($_GET['purity']) && $_GET['purity'] == $value): ?>selected<?php endif ?>
-                >
-                    <?= $purity ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+            <input id="puritySketchy"
+                   type="checkbox"
+                   name="purity[sketchy]"
+                   style="display: none;"
+                   <?php if (isset($_GET['purity']['sketchy'])): ?>checked<?php endif; ?>
+            />
+            <label for="puritySketchy"
+                   style="width: 32%; display: inline-block; border: 1px solid silver; text-align: center;">
+                sketchy
+            </label>
+
+            <input id="purityNsfw"
+                   type="checkbox"
+                   name="purity[nsfw]"
+                   style="display: none;"
+                   <?php if (isset($_GET['purity']['nsfw'])): ?>checked<?php endif; ?>
+            />
+            <label for="purityNsfw"
+                   style="width: 32%; display: inline-block; border: 1px solid silver; text-align: center;">
+                nsfw
+            </label>
+        </div>
 
         <label>Top range</label>
         <select name="topRange">
@@ -175,6 +201,8 @@
 
     main {
         padding: 5px;
+        overflow: auto;
+        margin-bottom: 2rem;
     }
 
     figure {

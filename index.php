@@ -33,9 +33,9 @@ class App
 
         $this->query = $_GET['q'] ?? $this->query;
         $this->resolutions = $_GET['resolution'] ?? $this->resolutions;
-        $this->purity = $_GET['purity'] ?? $this->purity;
         $this->topRange = $_GET['topRange'] ?? $this->topRange;
         $this->handleCategories();
+        $this->handlePurity();
 
         $resolutions = explode(',', $this->resolutions);
         foreach ($resolutions as $screen => $resolution) {
@@ -93,6 +93,15 @@ class App
         $anime = (int)(isset($this->categories['anime']));
         $people = (int)(isset($this->categories['people']));
         $this->categories = $general . $anime . $people;
+    }
+
+    protected function handlePurity()
+    {
+        $this->purity = $_GET['purity'] ?? $this->purity;
+        $sfw = (int)(isset($this->purity['sfw']));
+        $sketchy = (int)(isset($this->purity['sketchy']));
+        $nsfw = (int)(isset($this->purity['nsfw']));
+        $this->purity = $sfw . $sketchy . $nsfw;
     }
 
 }
