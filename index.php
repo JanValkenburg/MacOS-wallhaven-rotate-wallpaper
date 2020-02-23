@@ -16,7 +16,7 @@ class App
     protected $images = [];
     protected $categories;
     protected $cacheFolder = '/cache/';
-    protected $maxCachingSize = '250';
+    protected $maxCachingSize = '150';
 
     /**
      * @throws Exception
