@@ -124,14 +124,14 @@
         </select>
         <br>
 
+        <button style="float: right">
+            Submit
+        </button>
+
         <button name="clearCache"
                 class="danger"
                 value="true">
             Clear caching
-        </button>
-
-        <button style="float: right">
-            Submit
         </button>
 
     </form>
