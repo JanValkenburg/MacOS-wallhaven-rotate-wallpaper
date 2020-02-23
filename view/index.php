@@ -124,11 +124,17 @@
         </select>
         <br>
 
-        <button>
+        <button name="clearCache"
+                class="danger"
+                value="true">
+            Clear caching
+        </button>
+
+        <button style="float: right">
             Submit
         </button>
-    </form>
 
+    </form>
 
     <?php foreach ($this->images as $image): ?>
         <figure>
@@ -247,6 +253,9 @@
         cursor: pointer;
         padding: 5px 10px;
         color: white;
+    }
+    form button.danger {
+        background: red;
     }
 
     footer {

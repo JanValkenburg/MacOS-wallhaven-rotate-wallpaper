@@ -23,7 +23,7 @@ class App
      */
     function __destruct()
     {
-        $this->cleanUpCaching();
+        $this->cleanCache();
         $interval = $_GET['interval'] ?? 900;
         $time = (new DateTime('+' . $interval . ' SECONDS'))->format('H:i');
         list($filenames, $cachingSize) = $this->readCachingFolder();
@@ -132,12 +132,12 @@ class App
         return $extention;
     }
 
-    protected function cleanUpCaching()
+    protected function cleanUpCaching($maxCachingSize)
     {
         list($filenames, $sum) = $this->readCachingFolder();
         ksort($filenames);
         foreach ($filenames as $filename) {
-            if ($sum > $this->maxCachingSize * 1000000) {
+            if ($sum > $maxCachingSize * 1000000) {
                 unlink(__DIR__ . $this->cacheFolder . $filename['name']);
                 $sum = $sum - $filename['size'];
             }
@@ -162,6 +162,20 @@ class App
             }
         }
         return array($filenames, $sum);
+    }
+
+    protected function cleanCache()
+    {
+        if (isset($_GET['clearCache'])) {
+            $this->cleanUpCaching(0);
+            $args = $_GET;
+            unset($args['clearCache']);
+            $query = http_build_query($args);
+            header("Location: /?" . $query);
+            die;
+        } else {
+            $this->cleanUpCaching($this->maxCachingSize);
+        }
     }
 }
 
