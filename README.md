@@ -1,4 +1,4 @@
-# Change Wallpaper MacOS 
+# MacOS Wallhaven Rotate Wallpaper
 
 This PHP script allows you to change your wallpaper on the Mac. Wallpapers are 
 downloaded from wallhaven.cc.
