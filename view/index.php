@@ -148,7 +148,7 @@
                 <br>
                 category: <?= $image->category; ?>
                 <br>
-                created_at: <?= $image->created_at; ?>
+                created_at: <?= (new DateTime($image->created_at))->format('j F Y'); ?>
                 <br>
                 views: <?= $image->views; ?>
                 |
