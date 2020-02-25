@@ -138,12 +138,12 @@
 
     <?php foreach ($this->images as $image): ?>
         <figure>
+
             <a href="<?= $image->url; ?>" target="_blank">
                 <img src="<?= $image->thumbs->small; ?>"/>
             </a>
+
             <figcaption style="padding: 10px;">
-                file type: <?= $image->file_type; ?>
-                <br>
                 purity: <?= $image->purity; ?>
                 <br>
                 category: <?= $image->category; ?>
@@ -154,6 +154,7 @@
                 |
                 favorites: <?= $image->favorites; ?>
             </figcaption>
+
         </figure>
     <?php endforeach; ?>
 </main>
