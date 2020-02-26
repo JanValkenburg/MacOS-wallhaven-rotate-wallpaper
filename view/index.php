@@ -145,15 +145,15 @@
             </a>
 
             <figcaption>
-                purity: <?= $image->purity; ?>
+                <span class="right">
+                    ❤️ <?= $image->favorites; ?>
+                    👁️ <?= $image->views; ?>
+                </span>
+                Purity: <?= $image->purity; ?>
                 <br>
-                category: <?= $image->category; ?>
+                Category: <?= $image->category; ?>
                 <br>
-                created_at: <?= (new DateTime($image->created_at))->format('j F Y'); ?>
-                <br>
-                views: <?= $image->views; ?>
-                |
-                favorites: <?= $image->favorites; ?>
+                Created: <?= (new DateTime($image->created_at))->format('j F Y'); ?>
             </figcaption>
 
         </figure>
