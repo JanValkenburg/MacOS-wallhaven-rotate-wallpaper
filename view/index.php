@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="<?= $interval; ?>">
     <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" href="view/screen.css" />
     <title>MacOS WallHaven wallpaper rotator</title>
 </head>
 <body>
 <header>
     <h1>MacOS Wallhaven Wallpaper Rotator</h1>
     <time>Next refresh: <?= $time ?></time>
-    <span style="float: right; clear: right; font-size: .9em">Cache size: <?=ceil($cachingSize / 1000 / 1000);?>M/<?=$this->maxCachingSize;?>M</span>
+    <span>Cache size: <?=ceil($cachingSize / 1000 / 1000);?>M/<?=$this->maxCachingSize;?>M</span>
 </header>
 <main>
 
@@ -34,33 +35,33 @@
             <input id="categoriesGeneral"
                    type="checkbox"
                    name="categories[general]"
-                   style="display: none;"
                    <?php if (isset($_GET['categories']['general'])): ?>checked<?php endif; ?>
             />
             <label for="categoriesGeneral"
-                   style="width: 32%; display: inline-block; border: 1px solid silver; text-align: center;">
+               class="col-1-3"
+            >
                 General
             </label>
 
             <input id="categoriesAnime"
                    type="checkbox"
                    name="categories[anime]"
-                   style="display: none;"
                    <?php if (isset($_GET['categories']['anime'])): ?>checked<?php endif; ?>
             />
             <label for="categoriesAnime"
-                   style="width: 32%; display: inline-block; border: 1px solid silver; text-align: center;">
+                   class="col-1-3"
+            >
                 Anime
             </label>
 
             <input id="categoriesPeople"
                    type="checkbox"
                    name="categories[people]"
-                   style="display: none;"
                    <?php if (isset($_GET['categories']['people'])): ?>checked<?php endif; ?>
             />
             <label for="categoriesPeople"
-                   style="width: 32%; display: inline-block; border: 1px solid silver; text-align: center;">
+                   class="col-1-3"
+            >
                 People
             </label>
         </div>
@@ -69,33 +70,33 @@
             <input id="puritySfw"
                    type="checkbox"
                    name="purity[sfw]"
-                   style="display: none;"
                    <?php if (isset($_GET['purity']['sfw'])): ?>checked<?php endif; ?>
             />
             <label for="puritySfw"
-                   style="width: 32%; display: inline-block; border: 1px solid silver; text-align: center;">
+                   class="col-1-3"
+            >
                 sfw
             </label>
 
             <input id="puritySketchy"
                    type="checkbox"
                    name="purity[sketchy]"
-                   style="display: none;"
                    <?php if (isset($_GET['purity']['sketchy'])): ?>checked<?php endif; ?>
             />
             <label for="puritySketchy"
-                   style="width: 32%; display: inline-block; border: 1px solid silver; text-align: center;">
+                   class="col-1-3"
+            >
                 sketchy
             </label>
 
             <input id="purityNsfw"
                    type="checkbox"
                    name="purity[nsfw]"
-                   style="display: none;"
                    <?php if (isset($_GET['purity']['nsfw'])): ?>checked<?php endif; ?>
             />
             <label for="purityNsfw"
-                   style="width: 32%; display: inline-block; border: 1px solid silver; text-align: center;">
+                   class="col-1-3"
+            >
                 nsfw
             </label>
         </div>
@@ -124,7 +125,7 @@
         </select>
         <br>
 
-        <button style="float: right">
+        <button class="right">
             Submit
         </button>
 
@@ -143,7 +144,7 @@
                 <img src="<?= $image->thumbs->small; ?>"/>
             </a>
 
-            <figcaption style="padding: 10px;">
+            <figcaption>
                 purity: <?= $image->purity; ?>
                 <br>
                 category: <?= $image->category; ?>
@@ -198,109 +199,5 @@
         return true;
     }
 </script>
-<style>
-    * {
-        padding: 0;
-        margin: 0;
-        outline: none;
-        box-sizing: border-box;
-    }
-
-    html {
-        cursor: default;
-        font-family: Arial, serif;
-        color: #202020;
-    }
-
-    a {
-        color: inherit;
-    }
-
-    [type="checkbox"] + label {
-        cursor: pointer;
-    }
-    [type="checkbox"]:checked + label {
-        background: silver;
-    }
-    header {
-        background: white;
-        padding: 5px 10px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, .5);
-        margin-bottom: 1rem;
-    }
-
-    header h1 {
-        display: inline-block;
-    }
-
-    header time {
-        float: right;
-    }
-
-    main {
-        padding: 5px;
-        overflow: auto;
-        margin-bottom: 2rem;
-    }
-
-    figure {
-        margin-left: 5px;
-        margin-right: 5px;
-        float: left;
-        overflow: hidden;
-        border: 1px solid silver;
-        border-radius: 5px;
-    }
-
-    form {
-        overflow: hidden;
-        border: 1px solid silver;
-        border-radius: 5px;
-        padding: 5px 10px;
-        float: left;
-        width: 30%;
-    }
-
-    form label {
-        display: block;
-        margin-top: .5rem;
-    }
-
-    form select,
-    form input {
-        display: block;
-        width: 100%;
-    }
-
-    fieldset {
-        padding: 10px;
-    }
-
-    form button {
-        background: blue;
-        border-radius: 3px;
-        border: none;
-        cursor: pointer;
-        padding: 5px 10px;
-        color: white;
-    }
-    form button.danger {
-        background: red;
-    }
-
-    footer {
-        clear: both;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        box-shadow: 0 0 5px rgba(0, 0, 0, .5);
-        text-align: center;
-        padding: 5px 10px;
-        font-size: 12px;
-        background: #fff;
-    }
-
-</style>
 </body>
 </html>
