@@ -24,6 +24,7 @@ class App
     function __destruct()
     {
         $this->cleanCache();
+        $this->unlinkTempFiles();
         $interval = $_GET['interval'] ?? 900;
         $time = (new DateTime('+' . $interval . ' SECONDS'))->format('H:i');
         list($filenames, $cachingSize) = $this->readCachingFolder();
@@ -177,6 +178,17 @@ class App
             die;
         } else {
             $this->cleanUpCaching($this->maxCachingSize);
+        }
+    }
+
+    protected function unlinkTempFiles()
+    {
+        foreach (['.jpg', '.png'] as $extension) {
+            $path = str_replace(['.jpg', '.png'], '', $this->tmpFile);
+            $path = $path . $extension;
+            if (file_exists($path)) {
+                unlink($path);
+            }
         }
     }
 }
