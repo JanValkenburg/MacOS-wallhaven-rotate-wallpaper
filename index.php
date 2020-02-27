@@ -111,7 +111,9 @@ class App
     protected function downloadImage($data)
     {
         $extension = $this->getFileType($data);
-        $this->tmpFile = $this->tmpFile . $extension;
+        if (false === strpos($this->tmpFile, '.')) {
+            $this->tmpFile = $this->tmpFile . $extension;
+        }
         $imageName = __DIR__ . $this->cacheFolder . $data->data[0]->id . $extension;
         if (false === file_exists($imageName)) {
             file_put_contents($imageName, file_get_contents($data->data[0]->path));
