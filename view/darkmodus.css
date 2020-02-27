@@ -1,0 +1,18 @@
+body {
+  background-color: #303030;
+  color: #eeeeee;
+}
+
+input,
+select,
+figure,
+form,
+footer,
+header {
+  background: #202020;
+  color: #eeeeee;
+}
+
+form button.danger {
+    background: #ff4232;
+}

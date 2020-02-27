@@ -5,6 +5,7 @@
     <meta http-equiv="refresh" content="<?= $interval; ?>">
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="stylesheet" href="view/screen.css" />
+    <link rel="stylesheet" href="view/darkmodus.css" media="(prefers-color-scheme: dark)" />
     <title>MacOS WallHaven wallpaper rotator</title>
 </head>
 <body>
