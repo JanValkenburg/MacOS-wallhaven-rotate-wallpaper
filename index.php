@@ -3,38 +3,52 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+require 'Caching.php';
+
 class App
 {
     protected $api_key = '5VT3N7UoLwXIADhMrQ31sv2G7DXJXR7N';
+    protected $cacheFolder = '/cache/';
+    protected $caching;
+    protected $categories;
+    protected $images = [];
+    protected $purity;
+    protected $query = 'anime girl';
+    protected $resolutions = '1920x1080';
+    protected $screens = 'all';
     protected $sorting = 'random';
     protected $tmpFile = '/Users/${USER}/wallpaper';
-    protected $screens = 'all';
-    protected $query = 'anime girl';
-    protected $purity = 'sfw';
-    protected $resolutions = '1920x1080';
     protected $topRange = null;
-    protected $images = [];
-    protected $categories;
-    protected $cacheFolder = '/cache/';
-    protected $maxCachingSize = '150';
+
+    function __construct()
+    {
+        $this->caching = new Caching(
+            $this->cacheFolder,
+            $this->tmpFile,
+            100
+        );
+    }
 
     /**
      * @throws Exception
      */
     function __destruct()
     {
-        $this->cleanCache();
-        $this->unlinkTempFiles();
+        $this->caching->cleanCache();
+        $this->caching->unlinkTempFiles();
         $interval = $_GET['interval'] ?? 900;
         $time = (new DateTime('+' . $interval . ' SECONDS'))->format('H:i');
-        list($filenames, $cachingSize) = $this->readCachingFolder();
+        list($filenames, $cachingSize) = $this->caching->readCachingFolder();
         require 'view/index.php';
     }
 
     public function run()
     {
-        $userId = trim(shell_exec('id -un'));
-        $this->tmpFile = str_replace('${USER}', $userId, $this->tmpFile);
+        $this->tmpFile = str_replace(
+            '${USER}',
+            $this->getUserName(),
+            $this->tmpFile
+        );
 
         $this->query = $_GET['q'] ?? $this->query;
         $this->resolutions = $_GET['resolution'] ?? $this->resolutions;
@@ -128,69 +142,21 @@ class App
      */
     protected function getFileType($data)
     {
-        $extention = '.png';
+        $extension = '.png';
         if ($data->data[0]->file_type === 'image/jpeg') {
-            $extention = '.jpg';
+            $extension = '.jpg';
         }
-        return $extention;
-    }
-
-    protected function cleanUpCaching($maxCachingSize)
-    {
-        list($filenames, $sum) = $this->readCachingFolder();
-        ksort($filenames);
-        foreach ($filenames as $filename) {
-            if ($sum > $maxCachingSize * 1000000) {
-                unlink(__DIR__ . $this->cacheFolder . $filename['name']);
-                $sum = $sum - $filename['size'];
-            }
-        }
+        return $extension;
     }
 
     /**
-     * @return array
+     * @return string
      */
-    protected function readCachingFolder()
+    protected function getUserName(): string
     {
-        $filenames = array();
-        $sum = 0;
-        $iterator = new DirectoryIterator(__DIR__ . $this->cacheFolder);
-        foreach ($iterator as $fileinfo) {
-            if ($fileinfo->isFile() and $fileinfo->getFilename() !== 'index.html') {
-                $filenames[$fileinfo->getMTime()] = [
-                    'name' => $fileinfo->getFilename(),
-                    'size' => $fileinfo->getSize()
-                ];
-                $sum +=$fileinfo->getSize();
-            }
-        }
-        return array($filenames, $sum);
+        return trim(shell_exec('id -un'));
     }
 
-    protected function cleanCache()
-    {
-        if (isset($_GET['clearCache'])) {
-            $this->cleanUpCaching(0);
-            $args = $_GET;
-            unset($args['clearCache']);
-            $query = http_build_query($args);
-            header("Location: /?" . $query);
-            die;
-        } else {
-            $this->cleanUpCaching($this->maxCachingSize);
-        }
-    }
-
-    protected function unlinkTempFiles()
-    {
-        foreach (['.jpg', '.png'] as $extension) {
-            $path = str_replace(['.jpg', '.png'], '', $this->tmpFile);
-            $path = $path . $extension;
-            if (file_exists($path)) {
-                unlink($path);
-            }
-        }
-    }
 }
 
 (new App())->run();
