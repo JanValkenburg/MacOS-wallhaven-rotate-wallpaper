@@ -125,7 +125,7 @@ class App
      */
     protected function downloadImage($data)
     {
-        $extension = $this->getFileType($data);
+        $extension = $this->getFileType($data->data[0]->file_type);
         if (false === strpos($this->tmpFile, '.')) {
             $this->tmpFile = $this->tmpFile . $extension;
         }
@@ -137,16 +137,12 @@ class App
     }
 
     /**
-     * @param $data
+     * @param $fileType
      * @return string
      */
-    protected function getFileType($data)
+    protected function getFileType($fileType): string
     {
-        $extension = '.png';
-        if ($data->data[0]->file_type === 'image/jpeg') {
-            $extension = '.jpg';
-        }
-        return $extension;
+        return $fileType === 'image/jpeg' ? '.jpg' : '.png';
     }
 
     /**
