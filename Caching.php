@@ -11,7 +11,7 @@ class Caching
     /** @var string */
     protected $tmpFile;
     /** @var string */
-    protected $maxCachingSize;
+    public $maxCachingSize;
 
     /**
      * Caching constructor.

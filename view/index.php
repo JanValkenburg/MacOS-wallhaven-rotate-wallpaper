@@ -12,7 +12,7 @@
 <header>
     <h1>MacOS Wallhaven Wallpaper Rotator</h1>
     <time>Next refresh: <?= $time ?></time>
-    <span>Cache size: <?=ceil($cachingSize / 1000 / 1000);?>M/<?=$this->maxCachingSize;?>M</span>
+    <span>Cache size: <?=ceil($cachingSize / 1000 / 1000);?>M/<?=$this->caching->maxCachingSize;?>M</span>
 </header>
 <main>
 
