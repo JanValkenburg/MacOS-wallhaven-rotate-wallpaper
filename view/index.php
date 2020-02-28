@@ -161,9 +161,9 @@
     <?php endforeach; ?>
 </main>
 <footer>
-    Created by:
-    <a href="https://jv-dezign.com/" target="_blank">JV-Dezign.com</a>
-    |
+    Copyright 2020,
+    <a href="https://jv-dezign.com/" target="_blank">JV-Dezign.com</a>,
+    created by:
     <a href="https://janvalkenburg.nl/" target="_blank">janvalkenburg.nl</a>
 </footer>
 <script src="view/script.js"></script>
