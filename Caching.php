@@ -59,7 +59,7 @@ class Caching
                     'name' => $fileinfo->getFilename(),
                     'size' => $fileinfo->getSize()
                 ];
-                $sum +=$fileinfo->getSize();
+                $sum += $fileinfo->getSize();
             }
         }
         return array($filenames, $sum);
