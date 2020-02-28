@@ -9,11 +9,13 @@
     <title>MacOS WallHaven wallpaper rotator</title>
 </head>
 <body>
+
 <header>
     <h1>MacOS Wallhaven Wallpaper Rotator</h1>
     <time>Next refresh: <?= $time ?></time>
     <span>Cache size: <?=ceil($cachingSize / 1000 / 1000);?>M/<?=$this->caching->maxCachingSize;?>M</span>
 </header>
+
 <main>
 
     <form onsubmit="saveFormState()">
@@ -66,6 +68,7 @@
                 People
             </label>
         </div>
+
         <div>
             <label>Purity</label>
             <input id="puritySfw"
@@ -159,13 +162,16 @@
 
         </figure>
     <?php endforeach; ?>
+
 </main>
+
 <footer>
     Copyright 2020,
     <a href="https://jv-dezign.com/" target="_blank">JV-Dezign.com</a>,
     created by:
     <a href="https://janvalkenburg.nl/" target="_blank">janvalkenburg.nl</a>
 </footer>
+
 <script src="view/script.js"></script>
 </body>
 </html>
