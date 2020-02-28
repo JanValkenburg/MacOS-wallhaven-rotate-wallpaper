@@ -38,7 +38,7 @@ a {
 
 header {
     background: white;
-    padding: 5px 10px;
+    padding: .75rem 2rem;
     box-shadow: 0 0 5px rgba(0, 0, 0, .5);
     margin-bottom: 1rem;
 }
@@ -58,14 +58,13 @@ header span {
 }
 
 main {
-    padding: 5px;
     overflow: auto;
     margin-bottom: 2rem;
+    padding: 1rem 2rem;
 }
 
 figure {
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-left: 1.5rem;
     float: left;
     overflow: hidden;
     border: 1px solid silver;
@@ -76,7 +75,7 @@ form {
     overflow: hidden;
     border: 1px solid silver;
     border-radius: 5px;
-    padding: 5px 10px;
+    padding: 1rem;
     float: left;
     width: 30%;
 }
@@ -104,7 +103,7 @@ fieldset {
 }
 
 figcaption {
-    padding: 10px;
+    padding: 1rem;
 }
 
 form button {
@@ -128,7 +127,7 @@ footer {
     right: 0;
     box-shadow: 0 0 5px rgba(0, 0, 0, .5);
     text-align: center;
-    padding: 5px 10px;
+    padding: .75rem 2rem;
     font-size: 12px;
     background: #fff;
 }
