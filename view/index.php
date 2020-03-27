@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="<?= $interval; ?>">
-    <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="stylesheet" href="view/screen.css" />
-    <link rel="stylesheet" href="view/darkmodus.css" media="(prefers-color-scheme: dark)" />
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <link rel="stylesheet" href="view/screen.css"/>
+    <link rel="stylesheet" href="view/darkmodus.css" media="(prefers-color-scheme: dark)"/>
     <title>MacOS WallHaven wallpaper rotator</title>
 </head>
 <body>
@@ -13,7 +13,7 @@
 <header>
     <h1>MacOS Wallhaven Wallpaper Rotator</h1>
     <time>Next refresh: <?= $time ?></time>
-    <span>Cache size: <?=ceil($cachingSize / 1000 / 1000);?>M/<?=$this->caching->maxCachingSize;?>M</span>
+    <span>Cache size: <?= ceil($cachingSize / 1000 / 1000); ?>M/<?= $this->caching->maxCachingSize; ?>M</span>
 </header>
 
 <main>
@@ -41,7 +41,7 @@
                    <?php if (isset($_GET['categories']['general'])): ?>checked<?php endif; ?>
             />
             <label for="categoriesGeneral"
-               class="col-1-3"
+                   class="col-1-3"
             >
                 General
             </label>
