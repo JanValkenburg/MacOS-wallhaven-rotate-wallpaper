@@ -1,3 +1,4 @@
 /.idea
 /cache/*.jpg
 /cache/*.png
+/db/database.db

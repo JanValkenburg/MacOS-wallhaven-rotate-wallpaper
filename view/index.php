@@ -156,6 +156,10 @@
                 <span class="right">
                     ❤️ <?= number_format($image->favorites, 0, '', '.'); ?>
                     👁️ <?= number_format($image->views, 0, '', '.'); ?>
+                    <a href="?ignore=<?= $image->id; ?>&<?= $_SERVER['QUERY_STRING']; ?>"
+                       title="Block image">
+                        🚫
+                    </a>
                 </span>
                 Purity: <?= $image->purity; ?>
                 <br>

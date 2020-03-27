@@ -4,6 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require 'Caching.php';
+require 'Database.php';
 
 class App
 {
@@ -19,6 +20,8 @@ class App
     protected $sorting = 'random';
     protected $tmpFile = '/Users/${USER}/wallpaper';
     protected $topRange = null;
+    /** @var Database */
+    protected $database;
 
     function __construct()
     {
@@ -27,6 +30,8 @@ class App
             $this->tmpFile,
             100
         );
+
+        $this->database = new Database('db/database.db');
     }
 
     /**
@@ -44,6 +49,10 @@ class App
 
     public function run()
     {
+        if (isset($_GET['ignore'])) {
+            $this->database->ignoreImage($_GET['ignore']);
+        }
+
         $this->tmpFile = str_replace(
             '${USER}',
             $this->getUserName(),
@@ -95,7 +104,14 @@ class App
             return null;
         }
 
-        $this->images[] = $data->data[0];
+        $images = [];
+        $ignoreImages = $this->database->getIgnoreImages();
+        foreach ($data->data as $image) {
+            if (false === isset($ignoreImages[$image->id])) {
+                $images[] = $image;
+            }
+        }
+        $this->images[] = reset($images);
 
         $this->downloadImage($data);
         $this->downloadThumbImage($data);
