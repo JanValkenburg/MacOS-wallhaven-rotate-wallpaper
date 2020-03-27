@@ -18,9 +18,15 @@ a {
 [type="checkbox"] + label {
     cursor: pointer;
 }
+[type="checkbox"] + label:hover {
+    background: #505050
+}
 
 [type="checkbox"]:checked + label {
     background: silver;
+}
+[type="checkbox"]:checked + label:hover {
+    background: #505050
 }
 
 .right {
@@ -114,9 +120,15 @@ form button {
     padding: 5px 10px;
     color: white;
 }
+form button:hover {
+    background: #1118ff;
+}
 
 form button.danger {
     background: red;
+}
+form button.danger:hover {
+    background: #ff4c51;
 }
 
 footer {
