@@ -166,7 +166,6 @@ class App
         if (false === file_exists($imageName)) {
             file_put_contents($imageName, file_get_contents($data->data[0]->thumbs->small));
         }
-        copy($imageName, $this->tmpFile);
     }
 
     /**
