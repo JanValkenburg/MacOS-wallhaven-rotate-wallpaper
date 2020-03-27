@@ -150,8 +150,8 @@
 
             <figcaption>
                 <span class="right">
-                    ❤️ <?= $image->favorites; ?>
-                    👁️ <?= $image->views; ?>
+                    ❤️ <?= number_format($image->favorites, 0, '', '.'); ?>
+                    👁️ <?= number_format($image->views, 0, '', '.'); ?>
                 </span>
                 Purity: <?= $image->purity; ?>
                 <br>
