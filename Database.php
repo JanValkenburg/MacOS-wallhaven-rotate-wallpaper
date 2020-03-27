@@ -20,7 +20,7 @@ class Database
     }
 
     public function install() {
-        $this->pdo->exec('CREATE TABLE `ignore` (id CHAR(6));');
+        $this->pdo->exec('CREATE TABLE `ignore` (id CHAR(6) UNIQUE);');
     }
 
     public function getIgnoreImages() {
