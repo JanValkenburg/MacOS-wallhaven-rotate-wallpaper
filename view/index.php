@@ -145,7 +145,11 @@
         <figure>
 
             <a href="<?= $image->url; ?>" target="_blank">
-                <img src="<?= $image->thumbs->small; ?>"/>
+                <?php if ($image->file_type === 'image/jpeg'): ?>
+                    <img src="cache/<?= $image->id ?>_thumb.jpg"/>
+                <?php else: ?>
+                    <img src="cache/<?= $image->id ?>_thumb.png"/>
+                <?php endif; ?>
             </a>
 
             <figcaption>

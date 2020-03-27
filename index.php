@@ -98,6 +98,7 @@ class App
         $this->images[] = $data->data[0];
 
         $this->downloadImage($data);
+        $this->downloadThumbImage($data);
 
         shell_exec('/usr/local/bin/wallpaper set --screen ' . $this->screens . ' ' . $this->tmpFile);
     }
@@ -132,6 +133,22 @@ class App
         $imageName = __DIR__ . $this->cacheFolder . $data->data[0]->id . $extension;
         if (false === file_exists($imageName)) {
             file_put_contents($imageName, file_get_contents($data->data[0]->path));
+        }
+        copy($imageName, $this->tmpFile);
+    }
+
+    /**
+     * @param $data
+     */
+    protected function downloadThumbImage($data)
+    {
+        $extension = $this->getFileType($data->data[0]->file_type);
+        if (false === strpos($this->tmpFile, '.')) {
+            $this->tmpFile = $this->tmpFile . $extension;
+        }
+        $imageName = __DIR__ . $this->cacheFolder . $data->data[0]->id . '_thumb' . $extension;
+        if (false === file_exists($imageName)) {
+            file_put_contents($imageName, file_get_contents($data->data[0]->thumbs->small));
         }
         copy($imageName, $this->tmpFile);
     }
