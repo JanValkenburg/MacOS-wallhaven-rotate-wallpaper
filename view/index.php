@@ -34,75 +34,36 @@
         />
 
         <div>
+
             <label>Categories</label>
-            <input id="categoriesGeneral"
-                   type="checkbox"
-                   name="categories[general]"
-                   <?php if (isset($_GET['categories']['general'])): ?>checked<?php endif; ?>
-            />
-            <label for="categoriesGeneral"
-                   class="col-1-3"
-            >
-                General
-            </label>
-
-            <input id="categoriesAnime"
-                   type="checkbox"
-                   name="categories[anime]"
-                   <?php if (isset($_GET['categories']['anime'])): ?>checked<?php endif; ?>
-            />
-            <label for="categoriesAnime"
-                   class="col-1-3"
-            >
-                Anime
-            </label>
-
-            <input id="categoriesPeople"
-                   type="checkbox"
-                   name="categories[people]"
-                   <?php if (isset($_GET['categories']['people'])): ?>checked<?php endif; ?>
-            />
-            <label for="categoriesPeople"
-                   class="col-1-3"
-            >
-                People
-            </label>
+            <?php foreach (['general', 'anime', 'people'] as $item): ?>
+                <input id="categories<?= $item; ?>"
+                       type="checkbox"
+                       name="categories[<?= $item; ?>]"
+                       <?php if (isset($_GET['categories'][$item])): ?>checked<?php endif; ?>
+                />
+                <label for="categories<?= $item; ?>"
+                       class="col-1-3"
+                >
+                    <?= $item; ?>
+                </label>
+            <?php endforeach; ?>
         </div>
 
         <div>
             <label>Purity</label>
-            <input id="puritySfw"
-                   type="checkbox"
-                   name="purity[sfw]"
-                   <?php if (isset($_GET['purity']['sfw'])): ?>checked<?php endif; ?>
-            />
-            <label for="puritySfw"
-                   class="col-1-3"
-            >
-                sfw
-            </label>
-
-            <input id="puritySketchy"
-                   type="checkbox"
-                   name="purity[sketchy]"
-                   <?php if (isset($_GET['purity']['sketchy'])): ?>checked<?php endif; ?>
-            />
-            <label for="puritySketchy"
-                   class="col-1-3"
-            >
-                sketchy
-            </label>
-
-            <input id="purityNsfw"
-                   type="checkbox"
-                   name="purity[nsfw]"
-                   <?php if (isset($_GET['purity']['nsfw'])): ?>checked<?php endif; ?>
-            />
-            <label for="purityNsfw"
-                   class="col-1-3"
-            >
-                nsfw
-            </label>
+            <?php foreach (['sfw', 'sketchy', 'nsfw'] as $item): ?>
+                <input id="purity<?= $item; ?>"
+                       type="checkbox"
+                       name="purity[<?= $item; ?>]"
+                       <?php if (isset($_GET['purity'][$item])): ?>checked<?php endif; ?>
+                />
+                <label for="purity<?= $item; ?>"
+                       class="col-1-3"
+                >
+                    <?= $item; ?>
+                </label>
+            <?php endforeach; ?>
         </div>
 
         <label>Top range</label>
