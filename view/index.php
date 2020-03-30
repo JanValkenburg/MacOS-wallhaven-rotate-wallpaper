@@ -154,7 +154,10 @@
 
             <figcaption>
                 <span class="right">
-                    <a href="?ignore=<?= $image->id; ?>&<?= $_SERVER['QUERY_STRING']; ?>"
+                    <?php $query = $_GET; ?>
+                    <?php unset($query['ignore']); ?>
+                    <?php $query = http_build_query($query); ?>
+                    <a href="?ignore=<?= $image->id; ?>&<?= $query; ?>"
                        title="Block image">
                         🚫
                     </a>
