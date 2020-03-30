@@ -53,6 +53,10 @@ class App
             $this->database->ignoreImage($_GET['ignore']);
         }
 
+        if (isset($_GET['favorite'])) {
+            $this->database->favorImage($_GET['favorite']);
+        }
+
         $this->tmpFile = str_replace(
             '${USER}',
             $this->getUserName(),

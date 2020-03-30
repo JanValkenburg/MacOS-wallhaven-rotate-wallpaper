@@ -118,6 +118,10 @@
                     <?php $query = $_GET; ?>
                     <?php unset($query['ignore']); ?>
                     <?php $query = http_build_query($query); ?>
+                    <a href="?favorite=<?= $image->id; ?>&<?= $query; ?>"
+                       title="Like image">
+                        💖
+                    </a>
                     <a href="?ignore=<?= $image->id; ?>&<?= $query; ?>"
                        title="Block image">
                         🚫
