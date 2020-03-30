@@ -62,4 +62,17 @@ class Database
         $stmt->execute(['id' => $id]);
     }
 
+    /**
+     * @param string $id
+     */
+    public function deleteFavoriteImage(string $id) {
+        $stmt = $this
+            ->pdo
+            ->prepare('
+                DELETE FROM`favorite` WHERE `id` = :id
+            ');
+        $stmt->execute(['id' => $id]);
+
+    }
+
 }
