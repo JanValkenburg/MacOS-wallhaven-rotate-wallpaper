@@ -193,9 +193,7 @@ class App
      */
     protected function getResolution()
     {
-        $resolutions = $_GET['resolution'] ?? '1920x1080';
-        $resolutions = explode(',', $resolutions);
-        return $resolutions;
+        return explode(',', $_GET['resolution'] ?? '1920x1080');
     }
 
 }
