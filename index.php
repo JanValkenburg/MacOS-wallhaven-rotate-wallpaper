@@ -8,6 +8,8 @@ require 'Database.php';
 
 class App
 {
+    /** @var Database */
+    protected $database;
     protected $api_key = '5VT3N7UoLwXIADhMrQ31sv2G7DXJXR7N';
     protected $cacheFolder = '/cache/';
     protected $caching;
@@ -18,8 +20,6 @@ class App
     protected $sorting = 'random';
     protected $tmpFile = '/Users/${USER}/wallpaper';
     protected $topRange = null;
-    /** @var Database */
-    protected $database;
 
     function __construct()
     {
@@ -66,35 +66,51 @@ class App
         $this->handleCategories();
         $this->handlePurity();
 
-        $resolutions = $_GET['resolution'] ?? '1920x1080';
-        $resolutions = explode(',', $resolutions);
-        foreach ($resolutions as $screen => $resolution) {
-            $this->handleImage($screen, $resolutions);
+        foreach ($this->getResolution() as $screen => $resolution) {
+            $this->handleImage($screen, $resolution);
         }
     }
 
     protected function handleImage($screen, $resolutions)
     {
-        if (trim($this->topRange) != '') {
-            $query = http_build_query([
-                'apikey' => $this->api_key,
-                'resolutions' => $resolutions,
-                'sorting' => $this->sorting,
-                'topRange' => $_GET['topRange'] ?? null,
-                'purity' => $this->purity
-            ]);
-        } else {
-            $query = http_build_query([
-                'apikey' => $this->api_key,
-                'resolutions' => $resolutions,
-                'q' => $this->query,
-                'sorting' => $this->sorting,
-                'categories' => $this->categories,
-                'purity' => $this->purity
-            ]);
+        if ($data = $this->getData($resolutions)) {
+
+            $images = [];
+            $ignoreImages = $this->database->getIgnoreImages();
+            foreach ($data->data as $image) {
+                if (false === isset($ignoreImages[$image->id])) {
+                    $images[] = $image;
+                }
+            }
+            $this->images[] = reset($images);
+
+            $this->downloadImage($data);
+            $this->downloadThumbImage($data);
+
+            shell_exec('/usr/local/bin/wallpaper set --screen ' . $screen . ' ' . $this->tmpFile);
+        }
+    }
+
+    /**
+     * @param $resolutions
+     * @return null
+     */
+    protected function getData($resolutions) {
+        $query = [
+            'apikey' => $this->api_key,
+            'resolutions' => $resolutions,
+            'sorting' => $this->sorting,
+            'purity' => $this->purity,
+            'categories' => $this->categories,
+        ];
+        if ($this->query) {
+            $query['q'] = $this->query;
+        }
+        if (isset($_GET['topRange']) && $_GET['topRange']) {
+            $query['topRange'] = $_GET['topRange'];
         }
 
-        $url = 'https://wallhaven.cc/api/v1/search?' . $query;
+        $url = 'https://wallhaven.cc/api/v1/search?' . http_build_query($query);
         $content = file_get_contents($url);
         $data = json_decode($content);
 
@@ -103,20 +119,7 @@ class App
             echo 'no image found: ' . $this->query . ' ' . $resolutions;
             return null;
         }
-
-        $images = [];
-        $ignoreImages = $this->database->getIgnoreImages();
-        foreach ($data->data as $image) {
-            if (false === isset($ignoreImages[$image->id])) {
-                $images[] = $image;
-            }
-        }
-        $this->images[] = reset($images);
-
-        $this->downloadImage($data);
-        $this->downloadThumbImage($data);
-
-        shell_exec('/usr/local/bin/wallpaper set --screen ' . $screen . ' ' . $this->tmpFile);
+        return $data;
     }
 
     protected function handleCategories()
@@ -183,6 +186,16 @@ class App
     protected function getUserName(): string
     {
         return trim(shell_exec('id -un'));
+    }
+
+    /**
+     * @return array|mixed|string
+     */
+    protected function getResolution()
+    {
+        $resolutions = $_GET['resolution'] ?? '1920x1080';
+        $resolutions = explode(',', $resolutions);
+        return $resolutions;
     }
 
 }
