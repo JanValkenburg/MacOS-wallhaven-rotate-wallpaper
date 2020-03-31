@@ -39,7 +39,7 @@ class Caching
         ksort($filenames);
         foreach ($filenames as $filename) {
             if ($sum > $maxCachingSize * 1000000) {
-                unlink(__DIR__ . $this->cacheFolder . $filename['name']);
+                unlink($this->cacheFolder . $filename['name']);
                 $sum = $sum - $filename['size'];
             }
         }
@@ -52,7 +52,7 @@ class Caching
     {
         $filenames = [];
         $sum = 0;
-        $iterator = new DirectoryIterator(__DIR__ . $this->cacheFolder);
+        $iterator = new DirectoryIterator($this->cacheFolder);
         foreach ($iterator as $fileinfo) {
             if ($fileinfo->isFile() and $fileinfo->getFilename() !== 'index.html') {
                 $filenames[$fileinfo->getMTime()] = [

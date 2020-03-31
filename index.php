@@ -11,7 +11,7 @@ class App
     /** @var Database */
     protected $database;
     protected $api_key = '5VT3N7UoLwXIADhMrQ31sv2G7DXJXR7N';
-    protected $cacheFolder = '/cache/';
+    protected $cacheFolder = __DIR__ . '/cache/';
     protected $caching;
     protected $categories;
     protected $images = [];
@@ -142,7 +142,7 @@ class App
         if (false === strpos($this->tmpFile, '.')) {
             $this->tmpFile = $this->tmpFile . $extension;
         }
-        $imageName = __DIR__ . $this->cacheFolder . $data->data[0]->id . $extension;
+        $imageName = $this->cacheFolder . $data->data[0]->id . $extension;
         if (false === file_exists($imageName)) {
             file_put_contents($imageName, file_get_contents($data->data[0]->path));
         }
@@ -155,7 +155,7 @@ class App
         if (false === strpos($this->tmpFile, '.')) {
             $this->tmpFile = $this->tmpFile . $extension;
         }
-        $imageName = __DIR__ . $this->cacheFolder . $data->data[0]->id . '_thumb' . $extension;
+        $imageName = $this->cacheFolder . $data->data[0]->id . '_thumb' . $extension;
         if (false === file_exists($imageName)) {
             file_put_contents($imageName, file_get_contents($data->data[0]->thumbs->small));
         }
