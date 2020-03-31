@@ -15,7 +15,6 @@ class App
     protected $images = [];
     protected $purity;
     protected $query = 'anime girl';
-    protected $resolutions = '1920x1080';
     protected $sorting = 'random';
     protected $tmpFile = '/Users/${USER}/wallpaper';
     protected $topRange = null;
@@ -63,24 +62,23 @@ class App
         );
 
         $this->query = $_GET['q'] ?? $this->query;
-        $this->resolutions = $_GET['resolution'] ?? $this->resolutions;
         $this->topRange = $_GET['topRange'] ?? $this->topRange;
         $this->handleCategories();
         $this->handlePurity();
 
-        $resolutions = explode(',', $this->resolutions);
+        $resolutions = $_GET['resolution'] ?? '1920x1080';
+        $resolutions = explode(',', $resolutions);
         foreach ($resolutions as $screen => $resolution) {
-            $this->resolutions = $resolution;
-            $this->handleImage($screen);
+            $this->handleImage($screen, $resolutions);
         }
     }
 
-    protected function handleImage($screen)
+    protected function handleImage($screen, $resolutions)
     {
         if (trim($this->topRange) != '') {
             $query = http_build_query([
                 'apikey' => $this->api_key,
-                'resolutions' => $this->resolutions,
+                'resolutions' => $resolutions,
                 'sorting' => $this->sorting,
                 'topRange' => $_GET['topRange'] ?? null,
                 'purity' => $this->purity
@@ -88,7 +86,7 @@ class App
         } else {
             $query = http_build_query([
                 'apikey' => $this->api_key,
-                'resolutions' => $this->resolutions,
+                'resolutions' => $resolutions,
                 'q' => $this->query,
                 'sorting' => $this->sorting,
                 'categories' => $this->categories,
@@ -102,7 +100,7 @@ class App
 
         if (false === isset($data->data[0]->path)) {
             echo '<br>';
-            echo 'no image found: ' . $this->query . ' ' . $this->resolutions;
+            echo 'no image found: ' . $this->query . ' ' . $resolutions;
             return null;
         }
 
