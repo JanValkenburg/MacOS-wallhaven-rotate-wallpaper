@@ -48,7 +48,7 @@ class Caching
     /**
      * @return array
      */
-    public function readCachingFolder()
+    public function readCachingFolder(): array
     {
         $filenames = [];
         $sum = 0;
