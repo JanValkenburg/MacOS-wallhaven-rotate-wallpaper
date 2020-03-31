@@ -91,11 +91,7 @@ class App
         }
     }
 
-    /**
-     * @param $resolutions
-     * @return null
-     */
-    protected function getData($resolutions) {
+    protected function getData($resolutions): ?stdClass {
         $query = [
             'apikey' => $this->api_key,
             'resolutions' => $resolutions,
@@ -140,9 +136,6 @@ class App
         $this->purity = $sfw . $sketchy . $nsfw;
     }
 
-    /**
-     * @param $data
-     */
     protected function downloadImage($data)
     {
         $extension = $this->getFileType($data->data[0]->file_type);
@@ -156,9 +149,6 @@ class App
         copy($imageName, $this->tmpFile);
     }
 
-    /**
-     * @param $data
-     */
     protected function downloadThumbImage($data)
     {
         $extension = $this->getFileType($data->data[0]->file_type);
@@ -171,27 +161,17 @@ class App
         }
     }
 
-    /**
-     * @param $fileType
-     * @return string
-     */
     protected function getFileType($fileType): string
     {
         return $fileType === 'image/jpeg' ? '.jpg' : '.png';
     }
 
-    /**
-     * @return string
-     */
     protected function getUserName(): string
     {
         return trim(shell_exec('id -un'));
     }
 
-    /**
-     * @return array|mixed|string
-     */
-    protected function getResolution()
+    protected function getResolution(): array
     {
         return explode(',', $_GET['resolution'] ?? '1920x1080');
     }
