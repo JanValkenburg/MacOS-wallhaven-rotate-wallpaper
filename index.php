@@ -16,7 +16,6 @@ class App
     protected $purity;
     protected $query = 'anime girl';
     protected $resolutions = '1920x1080';
-    protected $screens = 'all';
     protected $sorting = 'random';
     protected $tmpFile = '/Users/${USER}/wallpaper';
     protected $topRange = null;
@@ -71,13 +70,12 @@ class App
 
         $resolutions = explode(',', $this->resolutions);
         foreach ($resolutions as $screen => $resolution) {
-            $this->screens = $screen;
             $this->resolutions = $resolution;
-            $this->handleImage();
+            $this->handleImage($screen);
         }
     }
 
-    protected function handleImage()
+    protected function handleImage($screen)
     {
         if (trim($this->topRange) != '') {
             $query = http_build_query([
@@ -120,7 +118,7 @@ class App
         $this->downloadImage($data);
         $this->downloadThumbImage($data);
 
-        shell_exec('/usr/local/bin/wallpaper set --screen ' . $this->screens . ' ' . $this->tmpFile);
+        shell_exec('/usr/local/bin/wallpaper set --screen ' . $screen . ' ' . $this->tmpFile);
     }
 
     protected function handleCategories()
