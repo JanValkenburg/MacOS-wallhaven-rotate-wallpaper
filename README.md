@@ -12,16 +12,9 @@ api visit: https://wallhaven.cc/help/api
 ### Requirements
 
 * MacOS
-* Xcode
-* [Homebrew macos-wallpaper](https://formulae.brew.sh/formula/wallpaper)
 * PHP 7+
 
 ### Installing
-
-First we need to be sure to install the wallpaper script for MacOs. This script
-can be download with brew. [Homebrew macos-wallpaper](https://formulae.brew.sh/formula/wallpaper)
-
-brew install wallpaper 
 
 Visit https://wallhaven.cc/ and create you own account. When done go to your
 profile and there you can find your API_KEY. You need to fill it in the head 
