@@ -65,7 +65,6 @@ class App
     protected function handleImage($screen, $resolutions)
     {
         if ($data = $this->getData($resolutions)) {
-
             $images = [];
             $ignoreImages = $this->database->getIgnoreImages();
             foreach ($data->data as $image) {
@@ -74,8 +73,6 @@ class App
                 }
             }
             $this->images[] = reset($images);
-
-            $this->downloadThumbImage($data);
             $imageName = $this->downloadImage($data);
             shell_exec("osascript -e 'tell application \"System Events\" to tell desktop ".($screen+1)." to set picture to \"" . $imageName . "\"'");
         }
@@ -130,19 +127,12 @@ class App
     {
         $extension = $this->getFileType($data->data[0]->file_type);
         $imageName = $this->cacheFolder . $data->data[0]->id . $extension;
+        $imageNameThumb = $this->cacheFolder . $data->data[0]->id . '_thumb' . $extension;
         if (false === file_exists($imageName)) {
             file_put_contents($imageName, file_get_contents($data->data[0]->path));
+            file_put_contents($imageNameThumb, file_get_contents($data->data[0]->thumbs->small));
         }
         return $imageName;
-    }
-
-    protected function downloadThumbImage($data)
-    {
-        $extension = $this->getFileType($data->data[0]->file_type);
-        $imageName = $this->cacheFolder . $data->data[0]->id . '_thumb' . $extension;
-        if (false === file_exists($imageName)) {
-            file_put_contents($imageName, file_get_contents($data->data[0]->thumbs->small));
-        }
     }
 
     protected function getFileType($fileType): string
