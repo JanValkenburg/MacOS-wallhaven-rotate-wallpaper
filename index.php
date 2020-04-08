@@ -73,10 +73,11 @@ class App
                 }
             }
             $image = reset($images);
-            $this->images[] = $image;
-
-            $imageName = $this->downloadImage($image);
-            shell_exec("osascript -e 'tell application \"System Events\" to tell desktop " . ($screen + 1) . " to set picture to \"" . $imageName . "\"'");
+            if ($image) {
+                $this->images[] = $image;
+                $imageName = $this->downloadImage($image);
+                shell_exec("osascript -e 'tell application \"System Events\" to tell desktop " . ($screen + 1) . " to set picture to \"" . $imageName . "\"'");
+            }
         }
     }
 
