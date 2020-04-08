@@ -84,10 +84,9 @@ class App
             }
             $this->images[] = reset($images);
 
-            $this->downloadImage($data);
             $this->downloadThumbImage($data);
-
-            shell_exec('/usr/local/bin/wallpaper set --screen ' . $screen . ' ' . $this->tmpFile);
+            $imageName = $this->downloadImage($data);
+            shell_exec("osascript -e 'tell application \"System Events\" to tell desktop ".($screen+1)." to set picture to \"" . $imageName . "\"'");
         }
     }
 
@@ -147,6 +146,7 @@ class App
             file_put_contents($imageName, file_get_contents($data->data[0]->path));
         }
         copy($imageName, $this->tmpFile);
+        return $imageName;
     }
 
     protected function downloadThumbImage($data)
