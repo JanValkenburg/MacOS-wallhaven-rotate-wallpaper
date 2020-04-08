@@ -72,13 +72,16 @@ class App
                     $images[] = $image;
                 }
             }
-            $this->images[] = reset($images);
-            $imageName = $this->downloadImage($data);
-            shell_exec("osascript -e 'tell application \"System Events\" to tell desktop ".($screen+1)." to set picture to \"" . $imageName . "\"'");
+            $image = reset($images);
+            $this->images[] = $image;
+
+            $imageName = $this->downloadImage($image);
+            shell_exec("osascript -e 'tell application \"System Events\" to tell desktop " . ($screen + 1) . " to set picture to \"" . $imageName . "\"'");
         }
     }
 
-    protected function getData($resolutions): ?stdClass {
+    protected function getData($resolutions): ?stdClass
+    {
         $query = [
             'apikey' => $this->api_key,
             'resolutions' => $resolutions,
@@ -125,12 +128,12 @@ class App
 
     protected function downloadImage($data)
     {
-        $extension = $this->getFileType($data->data[0]->file_type);
-        $imageName = $this->cacheFolder . $data->data[0]->id . $extension;
-        $imageNameThumb = $this->cacheFolder . $data->data[0]->id . '_thumb' . $extension;
+        $extension = $this->getFileType($data->file_type);
+        $imageName = $this->cacheFolder . $data->id . $extension;
+        $imageNameThumb = $this->cacheFolder . $data->id . '_thumb' . $extension;
         if (false === file_exists($imageName)) {
-            file_put_contents($imageName, file_get_contents($data->data[0]->path));
-            file_put_contents($imageNameThumb, file_get_contents($data->data[0]->thumbs->small));
+            file_put_contents($imageName, file_get_contents($data->path));
+            file_put_contents($imageNameThumb, file_get_contents($data->thumbs->small));
         }
         return $imageName;
     }
