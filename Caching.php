@@ -9,24 +9,19 @@ class Caching
     /** @var string */
     protected $cacheFolder;
     /** @var string */
-    protected $tmpFile;
-    /** @var string */
     public $maxCachingSize;
 
     /**
      * Caching constructor.
      * @param string $cacheFolder
-     * @param string $tmpFile
      * @param int $maxCachingSize
      */
     public function __construct(
         string $cacheFolder,
-        string $tmpFile,
         int $maxCachingSize
     )
     {
         $this->cacheFolder = $cacheFolder;
-        $this->tmpFile = $tmpFile;
         $this->maxCachingSize = $maxCachingSize;
     }
 
@@ -76,17 +71,6 @@ class Caching
             die;
         } else {
             $this->cleanUpCaching($this->maxCachingSize);
-        }
-    }
-
-    public function unlinkTempFiles()
-    {
-        foreach (['.jpg', '.png'] as $extension) {
-            $path = str_replace(['.jpg', '.png'], '', $this->tmpFile);
-            $path = $path . $extension;
-            if (file_exists($path)) {
-                unlink($path);
-            }
         }
     }
 }

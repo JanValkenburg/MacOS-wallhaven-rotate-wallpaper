@@ -18,14 +18,12 @@ class App
     protected $purity;
     protected $query = 'anime girl';
     protected $sorting = 'random';
-    protected $tmpFile = '/Users/${USER}/wallpaper';
     protected $topRange = null;
 
     function __construct()
     {
         $this->caching = new Caching(
             $this->cacheFolder,
-            $this->tmpFile,
             100
         );
 
@@ -38,7 +36,6 @@ class App
     function __destruct()
     {
         $this->caching->cleanCache();
-        $this->caching->unlinkTempFiles();
         $interval = $_GET['interval'] ?? 900;
         $time = (new DateTime('+' . $interval . ' SECONDS'))->format('H:i');
         list($filenames, $cachingSize) = $this->caching->readCachingFolder();
@@ -54,12 +51,6 @@ class App
         if (isset($_GET['favorite'])) {
             $this->database->favorImage($_GET['favorite']);
         }
-
-        $this->tmpFile = str_replace(
-            '${USER}',
-            $this->getUserName(),
-            $this->tmpFile
-        );
 
         $this->query = $_GET['q'] ?? $this->query;
         $this->topRange = $_GET['topRange'] ?? $this->topRange;
@@ -138,23 +129,16 @@ class App
     protected function downloadImage($data)
     {
         $extension = $this->getFileType($data->data[0]->file_type);
-        if (false === strpos($this->tmpFile, '.')) {
-            $this->tmpFile = $this->tmpFile . $extension;
-        }
         $imageName = $this->cacheFolder . $data->data[0]->id . $extension;
         if (false === file_exists($imageName)) {
             file_put_contents($imageName, file_get_contents($data->data[0]->path));
         }
-        copy($imageName, $this->tmpFile);
         return $imageName;
     }
 
     protected function downloadThumbImage($data)
     {
         $extension = $this->getFileType($data->data[0]->file_type);
-        if (false === strpos($this->tmpFile, '.')) {
-            $this->tmpFile = $this->tmpFile . $extension;
-        }
         $imageName = $this->cacheFolder . $data->data[0]->id . '_thumb' . $extension;
         if (false === file_exists($imageName)) {
             file_put_contents($imageName, file_get_contents($data->data[0]->thumbs->small));
@@ -164,11 +148,6 @@ class App
     protected function getFileType($fileType): string
     {
         return $fileType === 'image/jpeg' ? '.jpg' : '.png';
-    }
-
-    protected function getUserName(): string
-    {
-        return trim(shell_exec('id -un'));
     }
 
     protected function getResolution(): array
