@@ -1,4 +1,8 @@
-/.idea
+**.DS_Store
+*.icloud
+.history
+.vscode
+.idea
 /cache/*.jpg
 /cache/*.png
 /db/database.db
